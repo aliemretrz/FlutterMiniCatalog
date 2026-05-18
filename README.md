@@ -18,7 +18,7 @@ Flutter ile geliştirilmiş Apple ürün kataloğu uygulaması.
 - Ürün detay sayfası
 - Sepet yönetimi
 
-## 🛠 Kullanılan Teknolojiler
+## 🛠 Kullanılan Toll ve Kütüphaneler
 
 - Flutter 3.41.9  
 - Dart 3.11.5
