@@ -6,9 +6,9 @@ Flutter ile geliştirilmiş Apple ürün kataloğu uygulaması.
 ## 📸 Ekran Görüntüleri
 
 
-| Home | Detail | Cart |
-|------|--------|------|
-| <img src="https://github.com/aliemretrz/FlutterMiniCatalog/blob/main/screenshots/HomeScreen.png" width="200"/> | <img src="https://github.com/aliemretrz/FlutterMiniCatalog/blob/main/screenshots/Detail.png" width="200"/> | <img src="https://github.com/aliemretrz/FlutterMiniCatalog/blob/main/screenshots/EmptyBox.png" width="200"/> |
+| Home | Detail | Cart | Cart |
+|------|--------|------|------|
+| <img src="https://github.com/aliemretrz/FlutterMiniCatalog/blob/main/screenshots/HomeScreen.png" width="200"/> | <img src="https://github.com/aliemretrz/FlutterMiniCatalog/blob/main/screenshots/Detail.png" width="200"/> | <img src="https://github.com/aliemretrz/FlutterMiniCatalog/blob/main/screenshots/MultiAdd.png" width="200"/> | <img src="https://github.com/aliemretrz/FlutterMiniCatalog/blob/main/screenshots/EmptyBox.png" width="200"/> |
 
 
 
