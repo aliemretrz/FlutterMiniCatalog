@@ -41,3 +41,7 @@ Flutter ile geliştirilmiş Apple ürün kataloğu uygulaması.
 ```bash
    flutter run
 ```
+## Arayüz Tasarımı
+
+ <img src="https://github.com/aliemretrz/FlutterMiniCatalog/blob/main/screenshots/EmptyBox.png" height="600"/>
+
