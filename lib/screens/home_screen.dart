@@ -31,48 +31,46 @@ class _HomeScreenState extends State<HomeScreen> {
     _searchController.dispose();
     super.dispose();
   }
+Future<void> _fetchProducts() async {
+  try {
+    final client = HttpClient();
+    client.connectionTimeout = const Duration(seconds: 10);
+    final request = await client
+        .getUrl(Uri.parse('https://wantapi.com/products.php')); // ✅ yeni URL
+    final response = await request.close();
+    final body = await response.transform(utf8.decoder).join();
+    client.close();
 
-  Future<void> _fetchProducts() async {
-    try {
-      final client = HttpClient();
-      client.connectionTimeout = const Duration(seconds: 10);
-      final request = await client
-          .getUrl(Uri.parse('https://dummyjson.com/products?limit=100'));
-      final response = await request.close();
-      final body = await response.transform(utf8.decoder).join();
-      client.close();
+    final data = jsonDecode(body) as Map<String, dynamic>;
+    final products = (data['data'] as List) // ✅ 'products' → 'data'
+        .map((e) => Product.fromJson(e as Map<String, dynamic>))
+        .toList();
 
-      final data = jsonDecode(body) as Map<String, dynamic>;
-      final products = (data['products'] as List)
-          .map((e) => Product.fromJson(e as Map<String, dynamic>))
-          .toList();
-
-      if (mounted) {
-        setState(() {
-          _allProducts = products;
-          _filteredProducts = products;
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _error = 'Failed to load products.\nCheck your internet connection.';
-          _isLoading = false;
-        });
-      }
+    if (mounted) {
+      setState(() {
+        _allProducts = products;
+        _filteredProducts = products;
+        _isLoading = false;
+      });
+    }
+  } catch (e) {
+    if (mounted) {
+      setState(() {
+        _error = 'Failed to load products.\nCheck your internet connection.';
+        _isLoading = false;
+      });
     }
   }
+}
 
-  void _onSearchChanged() {
-    final query = _searchController.text.toLowerCase();
-    setState(() {
-      _filteredProducts = _allProducts
-          .where((p) => p.title.toLowerCase().contains(query))
-          .toList();
-    });
-  }
-
+void _onSearchChanged() {
+  final query = _searchController.text.toLowerCase();
+  setState(() {
+    _filteredProducts = _allProducts
+        .where((p) => p.name.toLowerCase().contains(query)) // ✅
+        .toList();
+  });
+}
   @override
   Widget build(BuildContext context) {
     final cartState = CartState.of(context);

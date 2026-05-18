@@ -31,7 +31,7 @@ class ProductCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.network(
-                  product.thumbnail,
+                  product.image,
                   width: double.infinity,
                   fit: BoxFit.cover,
                   errorBuilder: (ctx, err, st) => Container(
@@ -57,7 +57,7 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.title,
+                    product.name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -68,7 +68,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '\$${product.price.toStringAsFixed(2)}',
+                    product.price,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

@@ -41,7 +41,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: Image.network(
-                product.thumbnail,
+                product.image,
                 fit: BoxFit.cover,
                 errorBuilder: (ctx, err, st) => Container(
                   color: Colors.grey[200],
@@ -68,7 +68,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
-                      product.category.toUpperCase(),
+                      product.specs.keys.first.toUpperCase(),
                       style: const TextStyle(
                         color: Color(0xFF6C63FF),
                         fontSize: 11,
@@ -81,7 +81,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
                   // Title
                   Text(
-                    product.title,
+                    product.name,
                     style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -92,7 +92,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
                   // Price
                   Text(
-                    '\$${product.price.toStringAsFixed(2)}',
+                    product.price,
                     style: const TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
@@ -147,7 +147,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content:
-                                      Text('${product.title} added to cart!'),
+                                      Text('${product.name} added to cart!'),
                                   backgroundColor: const Color(0xFF6C63FF),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
@@ -187,23 +187,20 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 }
-
 class _SpecGrid extends StatelessWidget {
   final Product product;
   const _SpecGrid({required this.product});
 
   @override
   Widget build(BuildContext context) {
-    final specs = [
-      _SpecItem(icon: Icons.star_rounded, label: 'Rating',
-          value: product.rating.toString()),
-      _SpecItem(icon: Icons.inventory_2_outlined, label: 'Stock',
-          value: '${product.stock} units'),
-      _SpecItem(icon: Icons.business_outlined, label: 'Brand',
-          value: product.brand),
-      _SpecItem(icon: Icons.category_outlined, label: 'Category',
-          value: product.category),
+    final icons = [
+      Icons.memory_outlined,
+      Icons.phone_iphone_outlined,
+      Icons.camera_alt_outlined,
+      Icons.battery_charging_full_outlined,
     ];
+
+    final entries = product.specs.entries.toList();
 
     return GridView.count(
       crossAxisCount: 2,
@@ -212,10 +209,17 @@ class _SpecGrid extends StatelessWidget {
       crossAxisSpacing: 12,
       mainAxisSpacing: 12,
       childAspectRatio: 2.8,
-      children: specs.map((spec) => _buildSpecCard(spec)).toList(),
+      children: List.generate(entries.length, (i) {
+        return _buildSpecCard(_SpecItem(
+          icon: icons[i % icons.length],
+          label: entries[i].key,
+          value: entries[i].value,
+        ));
+      }),
     );
   }
-
+  // 
+}
   Widget _buildSpecCard(_SpecItem spec) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -251,7 +255,7 @@ class _SpecGrid extends StatelessWidget {
       ),
     );
   }
-}
+
 
 class _SpecItem {
   final IconData icon;

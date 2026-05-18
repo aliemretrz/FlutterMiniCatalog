@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../main.dart';
 
+
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
@@ -9,7 +10,8 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartState = CartState.of(context);
     final items = cartState.cartItems;
-    final total = items.fold<double>(0, (sum, p) => sum + p.price);
+
+   
 
     return Scaffold(
       backgroundColor: const Color(0xFFF0F0F7),
@@ -41,7 +43,7 @@ class CartScreen extends StatelessWidget {
             ),
         ],
       ),
-      body: items.isEmpty ? _buildEmptyState() : _buildCartList(context, items, total, cartState),
+      body: items.isEmpty ? _buildEmptyState() : _buildCartList(context, items, cartState),
     );
   }
 
@@ -70,10 +72,17 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCartList(BuildContext context, List<Product> items,
-      double total, CartStateData cartState) {
-    return Column(
-      children: [
+  Widget _buildCartList(BuildContext context, List<Product> items, CartStateData cartState) {
+
+         final total = items.fold<double>(0, (sum, p) {
+    final cleaned = p.price.replaceAll(RegExp(r'[^\d.]'), '');
+    return sum + (double.tryParse(cleaned) ?? 0);
+  });
+
+  return Column(
+    children: [
+      
+   
         Expanded(
           child: ListView.builder(
             physics: const ClampingScrollPhysics(),
@@ -204,7 +213,7 @@ class _CartItem extends StatelessWidget {
             borderRadius:
                 const BorderRadius.horizontal(left: Radius.circular(16)),
             child: Image.network(
-              product.thumbnail,
+              product.image,
               width: 90,
               height: 90,
               fit: BoxFit.cover,
@@ -225,7 +234,7 @@ class _CartItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.title,
+                    product.name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -236,7 +245,7 @@ class _CartItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '\$${product.price.toStringAsFixed(2)}',
+                    product.price,  // ✅
                     style: const TextStyle(
                       color: Color(0xFF6C63FF),
                       fontWeight: FontWeight.bold,
